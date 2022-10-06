@@ -1,51 +1,31 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.Scanner;
 
-public class Basket {
-    private  String[] products;
+public class Basket implements Serializable {
+    private String[] products;
     private double[] prices;
-    private  int[] selected;
+    private int[] selected;
 
     public Basket(String[] products, double[] prices) {
         this.products = products;
         this.prices = prices;
         this.selected = new int[prices.length];
     }
+
     private Basket(String[] products, double[] prices, int[] selected) {
         this.products = products;
         this.prices = prices;
         this.selected = selected;
     }
 
-    public void saveTxt(File txtFile) throws FileNotFoundException {
-        // loadFromTxtFile(file);
-        try (PrintWriter writer = new PrintWriter(txtFile)) {
-            for (String product : products) {
-                writer.print(product + " ");
-            }
-            writer.println();
-            for (double price : prices) {
-                writer.print(price + " ");
-            }
-            writer.println();
-            for (int sel : selected) {
-                writer.print(sel + " ");
-            }
-
+    public void saveBin(File binFile) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(binFile))) {
+            out.writeObject(this);
         }
     }
-    public static Basket  loadFromTxtFile( File txtFile) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream(txtFile))) {
-            String[] products = scanner.nextLine().trim().split(" ");
-            double[] prices = Arrays.stream(scanner.nextLine().trim().split(" "))
-                    .mapToDouble(Double::parseDouble)
-                    .toArray();
-            int[] selected = Arrays.stream(scanner.nextLine().trim().split(" "))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
 
-            return new Basket(products, prices, selected);
+    public static Basket loadFromBinFile(File binFile) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(binFile))) {
+            return (Basket) inputStream.readObject();
         }
     }
 

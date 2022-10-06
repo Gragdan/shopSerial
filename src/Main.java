@@ -8,15 +8,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String[] products = {"cheese", "bread"};
         double[] prices = {12.5, 4};
-        File txtFile = new File("basket.txt");
-        //  File binFile = new File("basket.bin");
+          File binFile = new File("basket.bin");
         Basket myBasket = null;
-        if (txtFile.exists()) {
-            //   myBasket = Basket.loadFromBinFile(binFile);
-            myBasket = Basket.loadFromTxtFile(txtFile);
+        if (binFile.exists()) {
+               myBasket = Basket.loadFromBinFile(binFile);
         } else {
-            //   binFile.createNewFile();
-            txtFile.createNewFile();
+            binFile.createNewFile();
             myBasket = new Basket(products, prices);
         }
         myBasket.printCart();
@@ -55,7 +52,7 @@ public class Main {
                     continue;
                 }
                 myBasket.addToCart(currentProduct, currentQuan);
-                myBasket.saveTxt(txtFile);
+                myBasket.saveBin(binFile);
             } else {
                 System.out.println("Введено неверное количество чисел! ");
                 continue;
