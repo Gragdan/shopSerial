@@ -3,15 +3,16 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Basket {
-    private  String[] products;
+    private String[] products;
     private double[] prices;
-    private  int[] selected;
+    private int[] selected;
 
     public Basket(String[] products, double[] prices) {
         this.products = products;
         this.prices = prices;
         this.selected = new int[prices.length];
     }
+
     private Basket(String[] products, double[] prices, int[] selected) {
         this.products = products;
         this.prices = prices;
@@ -35,7 +36,8 @@ public class Basket {
 
         }
     }
-    public static Basket  loadFromTxtFile( File txtFile) throws FileNotFoundException {
+
+    public static Basket loadFromTxtFile(File txtFile) throws FileNotFoundException {
         try (Scanner scanner = new Scanner(new FileInputStream(txtFile))) {
             String[] products = scanner.nextLine().trim().split(" ");
             double[] prices = Arrays.stream(scanner.nextLine().trim().split(" "))

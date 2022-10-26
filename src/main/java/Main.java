@@ -11,6 +11,7 @@ public class Main {
         File txtFile = new File("basket.txt");
         //  File binFile = new File("basket.bin");
         Basket myBasket = null;
+        ClientLog myLog = new ClientLog();
         if (txtFile.exists()) {
             //   myBasket = Basket.loadFromBinFile(binFile);
             myBasket = Basket.loadFromTxtFile(txtFile);
@@ -31,6 +32,7 @@ public class Main {
             String input = scanner.nextLine();
             if ("end".equals(input)) {
                 myBasket.printCart();
+                myLog.exportAsCSV();
                 break;
             }
             int currentProduct;
@@ -56,6 +58,8 @@ public class Main {
                 }
                 myBasket.addToCart(currentProduct, currentQuan);
                 myBasket.saveTxt(txtFile);
+                myLog.log(currentProduct, currentQuan);
+
             } else {
                 System.out.println("Введено неверное количество чисел! ");
                 continue;
