@@ -1,11 +1,17 @@
+import com.google.gson.Gson;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Basket {
-    private String[] products;
-    private double[] prices;
-    private int[] selected;
+public class Basket implements Serializable{
+    protected String[] products;
+    protected double[] prices;
+    protected int[] selected;
 
     public Basket(String[] products, double[] prices) {
         this.products = products;
@@ -13,10 +19,28 @@ public class Basket {
         this.selected = new int[prices.length];
     }
 
-    private Basket(String[] products, double[] prices, int[] selected) {
+   private Basket(String[] products, double[] prices, int[] selected) {
         this.products = products;
         this.prices = prices;
         this.selected = selected;
+    }
+
+
+    public void saveJSONObject(File jsonFile) throws IOException {
+        try(PrintWriter out = new PrintWriter(jsonFile)) {
+            Gson gson = new Gson();
+            String json = gson.toJson(this);
+            out.println(json);
+        }
+    }
+
+    public static Basket loadFromJson(File jsonFile) throws IOException{
+        try (Scanner scanner = new Scanner(jsonFile)) {
+            String json = scanner.nextLine();
+            Gson gson = new Gson();
+            Basket myBasket = gson.fromJson(json, Basket.class);
+            return myBasket;
+        }
     }
 
     public void saveTxt(File txtFile) throws FileNotFoundException {
@@ -37,7 +61,7 @@ public class Basket {
         }
     }
 
-    public static Basket loadFromTxtFile(File txtFile) throws FileNotFoundException {
+/*    public static Basket loadFromTxtFile(File txtFile) throws FileNotFoundException {
         try (Scanner scanner = new Scanner(new FileInputStream(txtFile))) {
             String[] products = scanner.nextLine().trim().split(" ");
             double[] prices = Arrays.stream(scanner.nextLine().trim().split(" "))
@@ -49,7 +73,7 @@ public class Basket {
 
             return new Basket(products, prices, selected);
         }
-    }
+    }*/
 
 
     public int[] addToCart(int productNum, int amount) {

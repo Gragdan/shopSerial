@@ -9,18 +9,21 @@ public class Main {
         String[] products = {"cheese", "bread"};
         double[] prices = {12.5, 4};
         File txtFile = new File("basket.txt");
+        File jsonFile = new File("basket.json");
         //  File binFile = new File("basket.bin");
         Basket myBasket = null;
         ClientLog myLog = new ClientLog();
-        if (txtFile.exists()) {
+        if (jsonFile.exists()) {
             //   myBasket = Basket.loadFromBinFile(binFile);
-            myBasket = Basket.loadFromTxtFile(txtFile);
+          //  myBasket = Basket.loadFromTxtFile(txtFile);
+            myBasket=  myBasket.loadFromJson(jsonFile);
         } else {
             //   binFile.createNewFile();
-            txtFile.createNewFile();
+            //txtFile.createNewFile();
+            jsonFile.createNewFile();
             myBasket = new Basket(products, prices);
         }
-        myBasket.printCart();
+           myBasket.printCart();
         System.out.println("Products for sale:");
         for (int i = 0; i < products.length; i++) {
             System.out.println(i + 1 + " " + products[i] + "  " + prices[i] + " $/pie");
@@ -57,7 +60,9 @@ public class Main {
                     continue;
                 }
                 myBasket.addToCart(currentProduct, currentQuan);
-                myBasket.saveTxt(txtFile);
+              //  myBasket.saveTxt(txtFile);
+                myBasket.saveJSONObject(jsonFile);
+
                 myLog.log(currentProduct, currentQuan);
 
             } else {
