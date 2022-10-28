@@ -12,9 +12,9 @@ public class ClientLog {
     public void log(int productNum, int amount){
        logFile.add(new String[]{String.valueOf(productNum), String.valueOf(amount)});
     }
-    public void exportAsCSV(){
+    public void exportAsCSV(String logFileName){
         try {
-            CSVWriter writer = new CSVWriter(new FileWriter("log.csv" ));
+            CSVWriter writer = new CSVWriter(new FileWriter(logFileName));
             writer.writeNext(header, false);
            writer.writeAll(logFile,false);
 

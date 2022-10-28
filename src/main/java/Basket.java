@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Basket implements Serializable{
+public class Basket implements Serializable {
     protected String[] products;
     protected double[] prices;
     protected int[] selected;
@@ -19,7 +19,7 @@ public class Basket implements Serializable{
         this.selected = new int[prices.length];
     }
 
-   private Basket(String[] products, double[] prices, int[] selected) {
+    private Basket(String[] products, double[] prices, int[] selected) {
         this.products = products;
         this.prices = prices;
         this.selected = selected;
@@ -27,14 +27,14 @@ public class Basket implements Serializable{
 
 
     public void saveJSONObject(File jsonFile) throws IOException {
-        try(PrintWriter out = new PrintWriter(jsonFile)) {
+        try (PrintWriter out = new PrintWriter(jsonFile)) {
             Gson gson = new Gson();
             String json = gson.toJson(this);
             out.println(json);
         }
     }
 
-    public static Basket loadFromJson(File jsonFile) throws IOException{
+    public static Basket loadFromJson(File jsonFile) throws IOException {
         try (Scanner scanner = new Scanner(jsonFile)) {
             String json = scanner.nextLine();
             Gson gson = new Gson();
@@ -42,38 +42,6 @@ public class Basket implements Serializable{
             return myBasket;
         }
     }
-
-    public void saveTxt(File txtFile) throws FileNotFoundException {
-        // loadFromTxtFile(file);
-        try (PrintWriter writer = new PrintWriter(txtFile)) {
-            for (String product : products) {
-                writer.print(product + " ");
-            }
-            writer.println();
-            for (double price : prices) {
-                writer.print(price + " ");
-            }
-            writer.println();
-            for (int sel : selected) {
-                writer.print(sel + " ");
-            }
-
-        }
-    }
-
-/*    public static Basket loadFromTxtFile(File txtFile) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream(txtFile))) {
-            String[] products = scanner.nextLine().trim().split(" ");
-            double[] prices = Arrays.stream(scanner.nextLine().trim().split(" "))
-                    .mapToDouble(Double::parseDouble)
-                    .toArray();
-            int[] selected = Arrays.stream(scanner.nextLine().trim().split(" "))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-
-            return new Basket(products, prices, selected);
-        }
-    }*/
 
 
     public int[] addToCart(int productNum, int amount) {
@@ -90,6 +58,21 @@ public class Basket implements Serializable{
         }
 
     }
+    public void saveTxt(File txtFile) throws FileNotFoundException {
+        try (PrintWriter writer = new PrintWriter(txtFile)) {
+            for (String product : products) {
+                writer.print(product + " ");
+            }
+            writer.println();
+            for (double price : prices) {
+                writer.print(price + " ");
+            }
+            writer.println();
+            for (int sel : selected) {
+                writer.print(sel + " ");
+            }
 
+        }
+    }
 
 }
