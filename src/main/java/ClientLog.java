@@ -1,8 +1,12 @@
-import com.opencsv.CSVWriter;
+//import com.opencsv.CSVWriter;
+
+import au.com.bytecode.opencsv.CSVWriter;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +19,8 @@ public class ClientLog {
     public void exportAsCSV(String logFileName){
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(logFileName));
-            writer.writeNext(header, false);
-           writer.writeAll(logFile,false);
+            writer.writeNext(header);
+           writer.writeAll(logFile);
 
 writer.close();
         }catch (IOException e){
